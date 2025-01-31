@@ -28,7 +28,6 @@ const displayCategories = (categories) => {
 loadCatgories()
 
 
-
 // -------------------------------------------------------------
 
 
@@ -52,40 +51,29 @@ const displayVideos = (videos) =>{
     console.log(video);
         // display data 1st step, creat a video cart
         const card = document.createElement('div');
-        card.classList= 'card w-72 shadow'
+        card.classList= 'card'
         card.innerHTML = `
-            <figure class="px-3 pt-10 h-[200px]">
-                <img 
-                src= ${video.thumbnail}
-                alt="Shoes"
-                class="rounded-xl h-full w-full object-cover" />
+            <figure class='w-[280px] h-[200px]'>
+                <img class='rounded-xl w-ful h-full object-cover' src=${video.thumbnail} alt="Shoes" />
             </figure>
-          
-                <div class='flex px-0 py-2 gap-2'>
-                    <div>
-                        <img class='w-10 h-10 rounded-full object-cover mt-3' src= ${video.authors[0].profile_picture}alt="Shoes";
+            <div class="flex items-center px-0 py-3 gap-3 mb-10">
+                <div>
+                    <img class='rounded-full w-12 h-12 object-cover' src=${video.authors[0].profile_picture} alt="Shoes" />
+                </div>
+                <div>
+                    <h2> ${video.title}</h2>
+                    <div class='flex items-center gap-3'>
+                        <h2 class='font-bold'> ${video.authors[0].profile_name}</h2>
+                        <img class='rounded-full w-7  object-cover' src='https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png' alt="Shoes" />
                     </div>
-                    <div class='flex'>
-                        <h2 class='font-bold mt-2'>${video.title}</h2>
-                        <div>
-                            <h2> ${video.authors[0].profile_name}</h2>
-                        </div>
-                        <div>
-                            <img class='w-10 h-10 rounded-full object-cover mt-3' src= 'https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png'alt="Shoes";
-                        </div>
-                    </div>
-                   
-                </div> 
+                    
+                </div>
+            </div>
            
         `
         // display data 3rd step, Append (show)
         videoContainer.append(card);
     })
-
-
-
 }
-
-
 
 loadVideos()
