@@ -1,10 +1,39 @@
 function getTimeString(time){
-    const day = parseInt (time/ 86400) // 1day = 86400 Second 
+    const day = parseInt (time/ 86400)      // 1day = 86400 Second 
     const hour = parseInt (time/3600 );    // 1hour = 3600 Second
     let second = time % 3600;
     const minuite =parseInt (second / 60);
     second = second % 60;
     return`${day} day ${hour} hour ${minuite} minuite ${second} second ago`
+}
+
+// remove active class
+const removeActiveClass = () =>{
+    const buttons = document.getElementsByClassName("category-btn");
+    // console.log(buttons);
+    for (let btn of buttons){
+        btn.classList.remove('active');
+    }
+}
+
+
+// saperet video by button click
+const loadCatgoryVideos = (id) => {
+    // alert(id);
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            const activeBtn = document.getElementById(`btn-${id}`);
+            // console.log(activeBtn)
+
+            // sobaik active class remove koro
+               removeActiveClass();
+
+            // id er class k active koro
+            activeBtn.classList.add('active')
+            displayVideos(data.category);
+        })
+        .catch(err => console.log(err))
 }
 
 // 1st step 1, fetch & load data
@@ -25,12 +54,24 @@ const displayCategories = (categories) => {
     // display data 2nd time, creat a button by forEach Loop
     categories.forEach(item => {
     // console.log(item);
-        const button = document.createElement('button');
-        button.classList= 'btn';
-        button.innerText = item.category
+        // const button = document.createElement('button');
+        // button.classList= 'btn';
+        // button.innerText = item.category;
+        // button.onclick = () => {
+        //     alert('hello');
+        // } 
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.innerHTML = `
+            <button id='btn-${item.category_id}' onclick='loadCatgoryVideos(${item.category_id})' class='btn category-btn'>
+                ${item.category}
+            </button>
+            
+            `;
 
         // display data 3rd time, Append (show)
-        categoryContainer.append(button);
+            // categoryContainer.append(button);
+            categoryContainer.append(buttonContainer);
     });
 }
 
@@ -54,6 +95,23 @@ const displayVideos = (videos) =>{
 // console.log(videos);
     // display data 1st time, catch the DOM
     const videoContainer = document.getElementById('videos');
+    videoContainer.innerHTML = "";   
+
+    if(videos.length === 0){
+        // videoContainer.innerHTML = "NO CONTENT HERE"; 
+        videoContainer.classList.remove('grid')
+        videoContainer.innerHTML = `
+        <div class=' flex flex-col gap-5 justify-center items-center'>
+            <img src = 'img/Icon.png'>
+            <h1 class='text-3xl font-bold'>NO CONTENT HERE IN THIS CATEGORY!</h1>
+        </div>
+        `;
+        return;
+        // min-h-screen flex flex-col gap-5 justify-center items-center
+    }
+    else{
+        videoContainer.classList.add('grid')
+    }
 
     // display data 2nd time, creat a video cart by forEach Loop
     videos.forEach(video =>{
@@ -92,7 +150,7 @@ const displayVideos = (videos) =>{
         `
 
         // display data 3rd time, Append (show)
-        videoContainer.append(card);
+        videoContainer.append(card);           
     })
 }
 
