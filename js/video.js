@@ -17,7 +17,7 @@ const removeActiveClass = () =>{
 }
 
 
-// saperet video by button click
+// saperet video card by button click
 const loadCatgoryVideos = (id) => {
     // alert(id);
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
@@ -66,7 +66,6 @@ const displayCategories = (categories) => {
             <button id='btn-${item.category_id}' onclick='loadCatgoryVideos(${item.category_id})' class='btn category-btn'>
                 ${item.category}
             </button>
-            
             `;
 
         // display data 3rd time, Append (show)
@@ -82,8 +81,9 @@ loadCatgories()
 
 
 // 2nd step 1, fetch & load data
-const loadVideos = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = (searchText = "") => {
+    // fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`) // search
         .then(res => res.json())
         // .then(data => console.log(data.videos))
         .then(data => displayVideos(data.videos))
@@ -154,5 +154,13 @@ const displayVideos = (videos) =>{
     })
 }
 
-loadVideos()
+loadVideos();
+
+
+// search-input
+document.getElementById('search-input').addEventListener('keyup', (e) =>{
+    // console.log(e.target.value)
+    loadVideos(e.target.value)
+});
+
 
